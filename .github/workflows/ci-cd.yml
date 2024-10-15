@@ -18,12 +18,16 @@ jobs:
         with:
           go-version: '1.23.0'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
           
-      - name: Change Directory to Backend
+      - name: Build Project in Backend Directory
         run: |
-          cd backend && go mod tidy && go test ./... && go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
-          
-      - name: Verify Build Output
-        run: ls backend  # ตรวจสอบว่าไฟล์ ecommerceapp ถูกสร้างแล้ว
+          cd backend
+          mkdir -p bin  # สร้าง directory bin ถ้าไม่มี
+          go mod tidy
+          go test ./...
+          go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
+
+      - name: Verify Binary Exists in Backend Bin
+        run: ls backend/bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
 
   deploy:
     runs-on: ubuntu-latest
@@ -31,5 +35,5 @@ jobs:
     steps:
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/bin/ecommerceapp /var/www/html  # เปลี่ยนเส้นทางไปยังตำแหน่งที่สร้าง binary
+          sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

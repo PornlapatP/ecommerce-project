@@ -22,6 +22,7 @@ jobs:
         run: |
           cd backend
           mkdir -p bin  # สร้าง directory bin ถ้าไม่มี
+          pwd
           go mod tidy
           go test ./...
           go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
@@ -33,10 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Find binary file
+        run: find . -name ecommerceapp
+        
       - name: Verify Binary and Destination Path
         run: |
           ls /var/www/html  # ตรวจสอบว่า path นี้มีอยู่ในระบบ
-
+        
       - name: Deploy to Nginx
         run: |
           sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้

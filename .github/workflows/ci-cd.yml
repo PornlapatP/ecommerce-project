@@ -20,6 +20,11 @@ jobs:
           echo "Files in Current Directory:"
           ls -la  # แสดงไฟล์ทั้งหมดใน directory ปัจจุบัน
 
+      - name: Check Parent Directory Structure
+        run: |
+          echo "Files in Parent Directory:"
+          ls -la ..  # แสดงไฟล์ใน parent directory เพื่อดูว่า backend มีอยู่หรือไม่
+    
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
@@ -27,7 +32,7 @@ jobs:
           
       - name: Build Project in Backend Directory
         run: |
-          cd backend || exit 1  # เปลี่ยน directory และหยุดถ้ามีปัญหา
+          cd backend || exit 1
           mkdir -p bin  # สร้าง directory bin ถ้าไม่มี
           go mod tidy
           go test ./...
@@ -42,17 +47,17 @@ jobs:
           echo "Current Directory:"
           pwd
           echo "Files in Current Directory:"
-          ls -la  # แสดงไฟล์ทั้งหมดใน directory ปัจจุบัน
+          ls -la
           echo "Checking backend directory:"
           ls -la backend  # ตรวจสอบว่า backend directory มีอยู่หรือไม่
 
       - name: Verify Binary Exists in Backend Bin
         run: |
-          cd backend  # ไปที่ backend directory
+          cd backend || exit 1
           ls bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
 
       - name: Deploy to Nginx
         run: |
-          cd backend  # ไปที่ backend directory
+          cd backend || exit 1
           sudo cp bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

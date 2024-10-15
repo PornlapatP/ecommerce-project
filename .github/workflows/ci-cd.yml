@@ -39,6 +39,9 @@ jobs:
       - name: List Files in Current Directory
         run: ls -la
         
+      - name: List Files in Current Directory
+        run: ls -R
+        
       - name: Deploy to Nginx
         run: |
           sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้

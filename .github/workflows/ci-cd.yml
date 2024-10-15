@@ -40,9 +40,7 @@ jobs:
         run: ls -la
         
       - name: List Files
-        run: cd ..
-             ls -la
-             pwd
+        run: cd .. && ls -la && pwd
              
       - name: Check back-end
         run: ls backend

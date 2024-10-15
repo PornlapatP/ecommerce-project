@@ -40,9 +40,11 @@ jobs:
     steps:
       - name: Show Current Directory
         run: pwd
-      
-      - name: List Files
-        run: ls -la backend/bin
+      - name: Find All Files
+        run: find . -name 'ecommerceapp'  # ค้นหาทั้งหมดใน directory เพื่อยืนยันว่ามีไฟล์อยู่ที่ไหน
+        
+      - name: List Files in backend/bin
+        run: ls -la backend/bin  # ระบุ path ที่ถูกต้อง
 
       - name: Deploy to Nginx
         run: |

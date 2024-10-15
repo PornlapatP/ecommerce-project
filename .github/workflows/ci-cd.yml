@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+
       - name: Verify Checkout
         run: |
           echo "Current Directory:"
@@ -22,7 +23,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.23.0'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
+          go-version: '1.23.0'
           
       - name: Build Project in Backend Directory
         run: |
@@ -31,28 +32,18 @@ jobs:
           go mod tidy
           go test ./...
           go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
-          ls -l ./bin  # แสดงรายละเอียดของไฟล์ใน directory bin
-
-      - name: Verify Binary Exists in Backend Bin
-        run: |
-          ls -l backend/bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
-          file backend/bin/ecommerceapp  # ตรวจสอบประเภทของไฟล์
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: List Root Directory
-        run: ls -l
+      - name: Change Directory to Backend
+        run: cd backend
 
-      - name: List Backend Directory
-        run: ls -l backend
+      - name: Verify Binary Exists in Backend Bin
+        run: ls bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
 
-      - name: List Bin Directory
-        run: ls -l backend/bin
-
-        
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
+          sudo cp bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

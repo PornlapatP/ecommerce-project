@@ -1,0 +1,38 @@
+name: Go CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.20'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
+
+      - name: Install Dependencies
+        run: go mod tidy  # คำสั่งสำหรับติดตั้ง dependencies
+
+      - name: Run Tests
+        run: go test ./...  # รันการทดสอบทั้งหมดในโปรเจกต์
+
+      - name: Build Project
+        run: go build -o ecommerceapp ./...  # สร้างแอปพลิเคชัน
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Nginx
+        run: |
+          # คัดลอก binary ไปยังตำแหน่งที่ Nginx ให้บริการ
+          sudo cp ecommerceapp /var/www/html  # เปลี่ยนเส้นทางให้ตรงกับการตั้งค่า Nginx
+          sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

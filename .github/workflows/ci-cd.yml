@@ -17,10 +17,13 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.23.0'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
+          
+      - name: Change Directory to Backend
+        run: cd backend
 
       - name: Install Dependencies
         run: go mod tidy  # คำสั่งสำหรับติดตั้ง dependencies
-
+        
       - name: Run Tests
         run: go test ./...  # รันการทดสอบทั้งหมดในโปรเจกต์
 

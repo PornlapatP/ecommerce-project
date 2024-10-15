@@ -19,16 +19,12 @@ jobs:
           go-version: '1.23.0'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
           
       - name: Change Directory to Backend
-        run: cd backend
+        run: |
+          cd backend
+          go mod tidy  # รันคำสั่งนี้ใน directory backend ที่มี go.mod
+          go test ./...
+          go build -o ecommerceapp ./...
 
-      - name: Install Dependencies
-        run: go mod tidy  # คำสั่งสำหรับติดตั้ง dependencies
-        
-      - name: Run Tests
-        run: go test ./...  # รันการทดสอบทั้งหมดในโปรเจกต์
-
-      - name: Build Project
-        run: go build -o ecommerceapp ./...  # สร้างแอปพลิเคชัน
 
   deploy:
     runs-on: ubuntu-latest

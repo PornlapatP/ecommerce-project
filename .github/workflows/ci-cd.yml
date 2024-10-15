@@ -39,8 +39,11 @@ jobs:
       - name: List Files in Current Directory
         run: ls -la
         
-      - name: List Files in Current Directory
-        run: ls -R
+      - name: List Files
+        run: ls -l
+        
+      - name: Check back-end
+        run: ls backend
         
       - name: Deploy to Nginx
         run: |

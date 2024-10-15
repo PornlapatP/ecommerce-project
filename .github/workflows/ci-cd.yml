@@ -33,6 +33,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Verify Binary and Destination Path
+        run: |
+          ls backend/bin/ecommerceapp  # ตรวจสอบว่าไฟล์ binary มีอยู่จริง
+          ls /var/www/html  # ตรวจสอบว่า path นี้มีอยู่ในระบบ
+
       - name: Deploy to Nginx
         run: |
           sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้

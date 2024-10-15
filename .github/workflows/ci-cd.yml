@@ -18,19 +18,24 @@ jobs:
         with:
           go-version: '1.23.0'  
           
+      - name: Prepare Bin Directory
+        run: |
+          mkdir -p backend/bin  # สร้าง directory bin หากยังไม่มี
+
       - name: Build Project in Backend Directory
         run: |
           cd backend 
           go mod tidy
           go test ./...
-          mkdir -p bin  # สร้าง directory bin หากยังไม่มี
           go build -o bin/ecommerceapp ./cmd/ecommerce-api  # เก็บไว้ใน backend/bin
 
       - name: Verify Binary Exists
         run: |
           echo "Listing files in backend/bin"
           ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
-          if [ ! -f backend/bin/ecommerceapp ]; then
+          if [ -f backend/bin/ecommerceapp ]; then
+            echo "Binary exists!"
+          else
             echo "Binary does not exist!"
             exit 1
           fi
@@ -39,9 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2  # ทำการ checkout โค้ดในขั้นตอน deployment
-
       - name: Show Current Directory
         run: pwd
         

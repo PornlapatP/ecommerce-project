@@ -20,10 +20,7 @@ jobs:
           
       - name: Change Directory to Backend
         run: |
-          cd backend
-          go mod tidy  # รันคำสั่งนี้ใน directory backend ที่มี go.mod
-          go test ./...
-          go build -o ecommerceapp ./cmd/ecommerce-api
+          cd backend && go mod tidy && go test ./... && go build -o ecommerceapp ./cmd/ecommerce-api
 
   deploy:
     runs-on: ubuntu-latest
@@ -31,6 +28,5 @@ jobs:
     steps:
       - name: Deploy to Nginx
         run: |
-          # คัดลอก binary ไปยังตำแหน่งที่ Nginx ให้บริการ
           sudo cp backend/ecommerceapp /var/www/html  # เปลี่ยนเส้นทางให้ตรงกับการตั้งค่า Nginx
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

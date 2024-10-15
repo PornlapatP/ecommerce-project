@@ -40,7 +40,7 @@ jobs:
         run: ls -la
         
       - name: List Files
-        run: cd .. && ls -la && pwd cd ecommerce-project && ls -la
+        run: cd .. && ls -la && pwd cd ecommerce-project && cd ecommerce-project && ls -l
              
       - name: Check back-end
         run: ls backend

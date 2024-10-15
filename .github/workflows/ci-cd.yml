@@ -18,7 +18,7 @@ jobs:
           echo "Current Directory:"
           pwd
           echo "Files in Current Directory:"
-          ls -la
+          ls -la  # แสดงไฟล์ทั้งหมดใน directory ปัจจุบัน
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -27,7 +27,7 @@ jobs:
           
       - name: Build Project in Backend Directory
         run: |
-          cd backend
+          cd backend || exit 1  # เปลี่ยน directory และหยุดถ้ามีปัญหา
           mkdir -p bin  # สร้าง directory bin ถ้าไม่มี
           go mod tidy
           go test ./...
@@ -37,13 +37,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Change Directory to Backend
-        run: cd backend
+      - name: Check Directory Structure
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Files in Current Directory:"
+          ls -la  # แสดงไฟล์ทั้งหมดใน directory ปัจจุบัน
+          echo "Checking backend directory:"
+          ls -la backend  # ตรวจสอบว่า backend directory มีอยู่หรือไม่
 
       - name: Verify Binary Exists in Backend Bin
-        run: ls bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
+        run: |
+          cd backend  # ไปที่ backend directory
+          ls bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
 
       - name: Deploy to Nginx
         run: |
+          cd backend  # ไปที่ backend directory
           sudo cp bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

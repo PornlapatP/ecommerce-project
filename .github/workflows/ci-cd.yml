@@ -21,6 +21,9 @@ jobs:
       - name: Change Directory to Backend
         run: |
           cd backend && go mod tidy && go test ./... && go build -o ecommerceapp ./cmd/ecommerce-api
+          
+      - name: Verify Build Output
+        run: ls backend  # ตรวจสอบว่าไฟล์ ecommerceapp ถูกสร้างแล้ว
 
   deploy:
     runs-on: ubuntu-latest

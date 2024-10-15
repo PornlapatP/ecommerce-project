@@ -40,6 +40,10 @@ jobs:
       - name: Verify Binary and Destination Path
         run: |
           ls /var/www/html  # ตรวจสอบว่า path นี้มีอยู่ในระบบ
+          
+      - name: Verify Binary
+        run: |
+          ls backend/bin/ecommerceapp  # ตรวจสอบว่าไฟล์มีอยู่ใน path นี้จริงหรือไม่
         
       - name: Deploy to Nginx
         run: |

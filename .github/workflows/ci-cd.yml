@@ -20,7 +20,7 @@ jobs:
           
       - name: Change Directory to Backend
         run: |
-          cd backend && go mod tidy && go test ./... && go build -o ecommerceapp ./cmd/ecommerce-api
+          cd backend && go mod tidy && go test ./... && go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
           
       - name: Verify Build Output
         run: ls backend  # ตรวจสอบว่าไฟล์ ecommerceapp ถูกสร้างแล้ว
@@ -31,5 +31,5 @@ jobs:
     steps:
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/ecommerceapp /var/www/html  # เปลี่ยนเส้นทางให้ตรงกับการตั้งค่า Nginx
+          sudo cp backend/bin/ecommerceapp /var/www/html  # เปลี่ยนเส้นทางไปยังตำแหน่งที่สร้าง binary
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

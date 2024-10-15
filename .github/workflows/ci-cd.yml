@@ -27,7 +27,12 @@ jobs:
           go build -o bin/ecommerceapp ./cmd/ecommerce-api  # เก็บไว้ใน backend/bin
 
       - name: Verify Binary Exists
-        run: ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
+        run: |
+          ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
+          if [ ! -f backend/bin/ecommerceapp ]; then
+            echo "Binary does not exist!"
+            exit 1
+          fi
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,7 +48,13 @@ jobs:
         run: ls -la backend  # ตรวจสอบว่า directory backend มีอยู่
 
       - name: List Files in backend/bin
-        run: ls -la backend/bin  # ตรวจสอบว่า directory bin มีอยู่
+        run: |
+          if [ -d backend/bin ]; then
+            ls -la backend/bin  # ตรวจสอบว่า directory bin มีอยู่
+          else
+            echo "Directory backend/bin does not exist."
+            exit 1
+          fi
         
       - name: Deploy to Nginx
         run: |

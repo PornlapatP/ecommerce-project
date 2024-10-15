@@ -27,12 +27,12 @@ jobs:
 
       - name: Verify Binary Exists
         run: ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
-      - name: location
-        run: pwd
       - name: location backend
         run: find . -name backend
       - name: cd backend
         run: cd backend/bin && ls -la
+      - name: location
+        run: pwd
 
   deploy:
     runs-on: ubuntu-latest

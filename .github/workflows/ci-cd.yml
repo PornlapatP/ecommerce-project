@@ -18,17 +18,19 @@ jobs:
           echo "Current Directory:"
           pwd
           echo "Files in Current Directory:"
-          ls -la  # แสดงไฟล์ทั้งหมดใน directory ปัจจุบัน
-
-      - name: Check Parent Directory Structure
-        run: |
-          echo "Files in Parent Directory:"
-          ls -la ..  # แสดงไฟล์ใน parent directory เพื่อดูว่า backend มีอยู่หรือไม่
+          ls -la
     
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: '1.23.0'
+          
+      - name: Check Backend Directory
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Checking backend directory:"
+          ls -la backend  # ตรวจสอบว่า backend directory มีอยู่หรือไม่
           
       - name: Build Project in Backend Directory
         run: |

@@ -40,13 +40,9 @@ jobs:
     steps:
       - name: Show Current Directory
         run: pwd
-      - name: Find All Files
-        run: find . -name bin  
+      - name: list file
+        run: ls -la 
         
-      - name: List Files in backend/bin
-        run: cd bin &&  ls -la
-             
-
       - name: Deploy to Nginx
         run: |
           sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้

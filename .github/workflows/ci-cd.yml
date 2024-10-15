@@ -41,10 +41,9 @@ jobs:
         
       - name: List Files
         run: cd ..
-        
-      - name: Check back-end
-        run: ls -la
-        
+             ls -la
+             pwd
+             
       - name: Check back-end
         run: ls backend
         

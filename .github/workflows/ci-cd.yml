@@ -31,8 +31,8 @@ jobs:
         run: pwd
       - name: location backend
         run: find . -name backend
-      - name: cd ecom
-        run: cd ecommerceapp && ls -la
+      - name: cd backend
+        run: cd backend && ls -la
 
   deploy:
     runs-on: ubuntu-latest

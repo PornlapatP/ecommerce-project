@@ -33,6 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Show Current Directory
+        run: pwd
+        
+      - name: List Files in Current Directory
+        run: ls -la
+        
       - name: Deploy to Nginx
         run: |
           sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้

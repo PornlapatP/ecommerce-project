@@ -42,8 +42,8 @@ jobs:
         run: pwd
       
       - name: List Files
-        run: ls -la 
-      
+        run: ls -la backend/bin
+
       - name: Deploy to Nginx
         run: |
           sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้

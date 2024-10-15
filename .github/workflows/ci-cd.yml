@@ -28,6 +28,7 @@ jobs:
 
       - name: Verify Binary Exists
         run: |
+          echo "Listing files in backend/bin"
           ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
           if [ ! -f backend/bin/ecommerceapp ]; then
             echo "Binary does not exist!"
@@ -44,10 +45,13 @@ jobs:
       - name: Show Current Directory
         run: pwd
         
+      - name: List Files in Root Directory
+        run: ls -la  # ตรวจสอบว่า directory หลักมีอะไรบ้าง
+
       - name: List Files in backend
         run: ls -la backend  # ตรวจสอบว่า directory backend มีอยู่
 
-      - name: List Files in backend/bin
+      - name: Check for backend/bin Directory
         run: |
           echo "Checking if backend/bin directory exists..."
           if [ -d backend/bin ]; then

@@ -36,13 +36,13 @@ jobs:
       - name: Show Current Directory
         run: pwd
         
-      - name: List Files in Current Directory
-        run: ls -la
+      - name: find back-end 1
+        run: find .. -name backend
         
-      - name: List Files
-        run: cd .. && ls -la && pwd cd ecommerce-project && cd ecommerce-project && ls -l
+      - name: findbackend 2
+        run: find / -name backend 2>/dev/null
              
-      - name: find back-end
+      - name: find back-end 3
         run: find . -name backend
         
       - name: Deploy to Nginx

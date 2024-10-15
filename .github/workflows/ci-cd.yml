@@ -27,6 +27,12 @@ jobs:
 
       - name: Verify Binary Exists
         run: ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
+      - name: location
+        run: pwd
+      - name: location backend
+        run: find . -name backend
+      - name: cd ecom
+        run: cd ecommerceapp && ls -la
 
   deploy:
     runs-on: ubuntu-latest

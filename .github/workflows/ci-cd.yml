@@ -36,12 +36,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Check Directory Structure
-        run: ls -R  # แสดง directory ทั้งหมดใน repo เพื่อให้เห็นโครงสร้าง
+      - name: List Root Directory
+        run: ls -l
 
-      - name: Verify Binary
-        run: |
-          find backend/bin -name ecommerceapp  # ค้นหาไฟล์ binary
+      - name: List Backend Directory
+        run: ls -l backend
+
+      - name: List Bin Directory
+        run: ls -l backend/bin
+
         
       - name: Deploy to Nginx
         run: |

@@ -20,14 +20,10 @@ jobs:
           
       - name: Build Project in Backend Directory
         run: |
-          cd backend || exit 1
-          mkdir -p bin  # สร้าง directory bin ถ้าไม่มี
+          pwd
           go mod tidy
           go test ./...
-          go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
-
-      - name: Verify Binary Exists in Backend Bin
-        run: ls -la backend/bin  # ตรวจสอบว่าไฟล์ ecommerceapp อยู่ใน directory bin
+          go build -o ecommerceapp ./cmd/ecommerce-api
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,16 +32,7 @@ jobs:
       - name: Show Current Directory
         run: pwd
         
-      - name: find back-end 1
-        run: find .. -name backend
-        
-      - name: findbackend 2
-        run: find / -name backend 2>/dev/null
-             
-      - name: find back-end 3
-        run: find . -name backend
-        
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
+          sudo cp ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

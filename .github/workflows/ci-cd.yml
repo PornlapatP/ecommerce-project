@@ -42,7 +42,7 @@ jobs:
         run: pwd
       
       - name: List Files
-        run: ls -la backend/bin  # แสดงไฟล์ใน backend/bin
+        run: cd backend/bin && ls -la # แสดงไฟล์ใน backend/bin
       
       - name: Deploy to Nginx
         run: |

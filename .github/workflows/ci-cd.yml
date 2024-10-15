@@ -40,10 +40,11 @@ jobs:
     steps:
       - name: Show Current Directory
         run: pwd
+        
       - name: list file
         run: ls -la 
         
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
+          sudo cp /home/runner/work/ecommerce-project/ecommerce-project/backend/bin/ecommerceapp /var/www/html
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

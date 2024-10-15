@@ -25,10 +25,12 @@ jobs:
           go mod tidy
           go test ./...
           go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
-          ls -l ./bin  # แสดงรายการไฟล์ใน directory bin หลังจาก build
+          ls -l ./bin  # แสดงรายละเอียดของไฟล์ใน directory bin
 
       - name: Verify Binary Exists in Backend Bin
-        run: ls backend/bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
+        run: |
+          ls -l backend/bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin
+          file backend/bin/ecommerceapp  # ตรวจสอบประเภทของไฟล์
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,7 +41,7 @@ jobs:
 
       - name: Verify Binary
         run: |
-          ls backend/bin/ecommerceapp  # ตรวจสอบว่าไฟล์มีอยู่ใน path นี้จริงหรือไม่
+          find backend/bin -name ecommerceapp  # ค้นหาไฟล์ binary
         
       - name: Deploy to Nginx
         run: |

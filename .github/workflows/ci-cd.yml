@@ -42,8 +42,8 @@ jobs:
       - name: List Files
         run: cd .. && ls -la && pwd cd ecommerce-project && cd ecommerce-project && ls -l
              
-      - name: Check back-end
-        run: ls backend
+      - name: find back-end
+        run: find . -name backend
         
       - name: Deploy to Nginx
         run: |

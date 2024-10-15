@@ -18,21 +18,25 @@ jobs:
         with:
           go-version: '1.23.0'  
           
+      - name: List Files in Current Directory
+        run: ls -la  # List files to verify the working directory
+
       - name: Prepare Bin Directory
         run: |
-          mkdir -p backend/bin  # สร้าง directory bin หากยังไม่มี
+          mkdir -p backend/bin  # Create the bin directory if it doesn't exist
 
       - name: Build Project in Backend Directory
         run: |
           cd backend 
+          echo "Current Directory: $(pwd)"  # Print the current directory
           go mod tidy
           go test ./...
-          go build -o bin/ecommerceapp ./cmd/ecommerce-api  # เก็บไว้ใน backend/bin
+          go build -o bin/ecommerceapp ./cmd/ecommerce-api  # Save the binary in backend/bin
 
       - name: Verify Binary Exists
         run: |
           echo "Listing files in backend/bin"
-          ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
+          ls -la backend/bin  # Check if the binary file is here
           if [ -f backend/bin/ecommerceapp ]; then
             echo "Binary exists!"
           else
@@ -48,17 +52,17 @@ jobs:
         run: pwd
         
       - name: List Files in Root Directory
-        run: ls -la  # ตรวจสอบว่า directory หลักมีอะไรบ้าง
+        run: ls -la  # Check what is in the root directory
 
       - name: List Files in backend
-        run: ls -la backend  # ตรวจสอบว่า directory backend มีอยู่
+        run: ls -la backend  # Check if the backend directory exists
 
       - name: Check for backend/bin Directory
         run: |
           echo "Checking if backend/bin directory exists..."
           if [ -d backend/bin ]; then
             echo "Directory backend/bin exists."
-            ls -la backend/bin  # ตรวจสอบว่า directory bin มีอยู่
+            ls -la backend/bin  # List files in the bin directory
           else
             echo "Directory backend/bin does not exist."
             exit 1
@@ -67,5 +71,5 @@ jobs:
       - name: Deploy to Nginx
         run: |
           echo "Deploying to Nginx..."
-          sudo cp backend/bin/ecommerceapp /var/www/html  # ใช้ path ที่ relative
-          sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล 
+          sudo cp backend/bin/ecommerceapp /var/www/html  # Use relative path for the binary
+          sudo systemctl restart nginx  # Restart Nginx to apply changes

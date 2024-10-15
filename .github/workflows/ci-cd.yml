@@ -32,9 +32,7 @@ jobs:
       - name: location backend
         run: find . -name backend
       - name: cd backend
-        run: cd backend && ls -la
-      - name: cd bin
-        run: cd bin
+        run: cd backend/bin && ls -la
 
   deploy:
     runs-on: ubuntu-latest

@@ -33,6 +33,8 @@ jobs:
     steps:
       - name: Show Current Directory
         run: pwd
+      - name: list file 
+        run: ls -la
         
       - name: Deploy to Nginx
         run: |

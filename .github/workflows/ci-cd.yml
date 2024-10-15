@@ -49,7 +49,9 @@ jobs:
 
       - name: List Files in backend/bin
         run: |
+          echo "Checking if backend/bin directory exists..."
           if [ -d backend/bin ]; then
+            echo "Directory backend/bin exists."
             ls -la backend/bin  # ตรวจสอบว่า directory bin มีอยู่
           else
             echo "Directory backend/bin does not exist."
@@ -58,5 +60,6 @@ jobs:
         
       - name: Deploy to Nginx
         run: |
+          echo "Deploying to Nginx..."
           sudo cp backend/bin/ecommerceapp /var/www/html  # ใช้ path ที่ relative
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล 

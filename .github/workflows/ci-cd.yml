@@ -22,10 +22,10 @@ jobs:
         run: |
           cd backend
           mkdir -p bin  # สร้าง directory bin ถ้าไม่มี
-          pwd
           go mod tidy
           go test ./...
           go build -o ./bin/ecommerceapp ./cmd/ecommerce-api
+          ls -l ./bin  # แสดงรายการไฟล์ใน directory bin หลังจาก build
 
       - name: Verify Binary Exists in Backend Bin
         run: ls backend/bin  # ตรวจสอบว่ามีไฟล์ ecommerceapp อยู่ใน directory bin

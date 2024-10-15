@@ -21,6 +21,8 @@ jobs:
       - name: Build Project in Backend Directory
         run: |
           pwd
+          ls -la 
+          cd backend 
           go mod tidy
           go test ./...
           go build -o ecommerceapp ./cmd/ecommerce-api

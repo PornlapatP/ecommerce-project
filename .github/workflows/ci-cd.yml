@@ -34,18 +34,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Find binary file
-        run: find . -name ecommerceapp
-        
-      - name: Verify Binary and Destination Path
-        run: |
-          ls /var/www/html  # ตรวจสอบว่า path นี้มีอยู่ในระบบ
-          
+      - name: Change Directory to Backend
+        run: cd backend
+
+      - name: Find Binary File
+        run: find . -name ecommerceapp  # ค้นหาไฟล์ binary ใน backend
+
       - name: Verify Binary
         run: |
-          ls backend/bin/ecommerceapp  # ตรวจสอบว่าไฟล์มีอยู่ใน path นี้จริงหรือไม่
+          ls ./bin/ecommerceapp  # ตรวจสอบว่าไฟล์มีอยู่ใน path นี้จริงหรือไม่
         
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
+          sudo cp ./bin/ecommerceapp /var/www/html  # คัดลอกไฟล์ binary ไปยังตำแหน่งที่ Nginx ใช้
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

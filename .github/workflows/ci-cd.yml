@@ -33,6 +33,8 @@ jobs:
         run: find . -name backend
       - name: cd backend
         run: cd backend && ls -la
+      - name: cd bin
+        run: cd bin
 
   deploy:
     runs-on: ubuntu-latest

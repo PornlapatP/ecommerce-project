@@ -32,7 +32,7 @@ jobs:
       - name: location backend
         run: find . -name backend
       - name: cd backend
-        run: cd backend/bin && ls -la
+        run: cd backend/bin/ecommerceapp && ls -la
 
   deploy:
     runs-on: ubuntu-latest

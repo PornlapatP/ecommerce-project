@@ -20,28 +20,29 @@ jobs:
           
       - name: Build Project in Backend Directory
         run: |
-          cd backend && mkdir -p backend/bin && go mod tidy && go test ./... && go build -o bin/ecommerceapp ./cmd/ecommerce-api
-          
+          cd backend 
+          go mod tidy
+          go test ./...
+          mkdir -p bin  # สร้าง directory bin หากยังไม่มี
+          go build -o bin/ecommerceapp ./cmd/ecommerce-api  # เก็บไว้ใน backend/bin
+
       - name: Verify Binary Exists
         run: ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
-      - name: location backend
-        run: find . -name backend
-      - name: cd backend
-        run: cd backend/bin && ls -la
-      - name: location
-        run: pwd
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
-        
-      - name: Verify Binary Exists Before Deployment
-        run: ls -la backend/bin  # ตรวจสอบว่าไฟล์ binary อยู่ที่นี่
+        uses: actions/checkout@v2  # ทำการ checkout โค้ดในขั้นตอน deployment ด้วย
 
+      - name: Show Current Directory
+        run: pwd
+        
+      - name: List Files
+        run: ls -la backend/bin  # แสดงไฟล์ใน backend/bin เพื่อตรวจสอบว่า ecommerceapp อยู่ที่นั่น
+        
       - name: Deploy to Nginx
         run: |
-          sudo cp backend/bin/ecommerceapp /var/www/html
-          sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล
+          sudo cp backend/bin/ecommerceapp /var/www/html  # ใช้ path ที่ relative
+          sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล 

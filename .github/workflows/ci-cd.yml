@@ -16,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '1.20'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
+          go-version: '1.23.0'  # ระบุเวอร์ชันของ Go ที่คุณต้องการใช้
 
       - name: Install Dependencies
         run: go mod tidy  # คำสั่งสำหรับติดตั้ง dependencies
@@ -34,5 +34,5 @@ jobs:
       - name: Deploy to Nginx
         run: |
           # คัดลอก binary ไปยังตำแหน่งที่ Nginx ให้บริการ
-          sudo cp ecommerceapp /var/www/html  # เปลี่ยนเส้นทางให้ตรงกับการตั้งค่า Nginx
+          sudo cp backend/ecommerceapp /var/www/html  # เปลี่ยนเส้นทางให้ตรงกับการตั้งค่า Nginx
           sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล

@@ -41,10 +41,11 @@ jobs:
       - name: Show Current Directory
         run: pwd
       - name: Find All Files
-        run: find . -name 'ecommerceapp'  # ค้นหาทั้งหมดใน directory เพื่อยืนยันว่ามีไฟล์อยู่ที่ไหน
+        run: find . -name bin  
         
       - name: List Files in backend/bin
-        run: ls -la backend/bin  # ระบุ path ที่ถูกต้อง
+        run: cd bin &&  ls -la
+             
 
       - name: Deploy to Nginx
         run: |

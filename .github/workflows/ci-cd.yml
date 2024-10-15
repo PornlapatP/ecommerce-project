@@ -23,8 +23,7 @@ jobs:
           cd backend
           go mod tidy  # รันคำสั่งนี้ใน directory backend ที่มี go.mod
           go test ./...
-          go build -o ecommerceapp ./...
-
+          go build -o ecommerceapp ./cmd/ecommerce-api
 
   deploy:
     runs-on: ubuntu-latest

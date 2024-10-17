@@ -37,3 +37,7 @@ func (service Service) Create(req model.RequestCreateProduct, imageURL string) (
 	}
 	return product, nil
 }
+
+func (service Service) GetAllProduct(query model.RequestGetProduct) ([]model.Product, error) {
+	return service.Repository.GetallProducts(query)
+}

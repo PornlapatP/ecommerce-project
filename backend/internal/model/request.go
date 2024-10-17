@@ -30,3 +30,7 @@ type RequestCreateProduct struct {
 	Stock       int     `json:"stock" binding:"required"`
 	// ImageURL    string  `json:"imageurl"`
 }
+
+type RequestGetProduct struct {
+	Status []constant.ProductsStatus `form:"status" validate:"dive,oneof=active inactive"`
+}

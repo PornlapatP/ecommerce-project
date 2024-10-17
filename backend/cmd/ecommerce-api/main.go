@@ -57,7 +57,7 @@ func main() {
 	items := r.Group("/items")
 	{
 		items.POST("/products", controllerproduct.CreateProduct)
-		// items.GET("/products", controllerproduct.GetAllProduct)
+		items.GET("/products", controllerproduct.GetAllProduct)
 		// items.GET("/products/:id", controllerproduct.CreateProduct)
 		// items.PUT("/products/:id", controllerproduct.CreateProduct)
 		// items.DELETE("/products/:id", controllerproduct.CreateProduct)

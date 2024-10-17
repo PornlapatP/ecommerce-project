@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -70,4 +71,38 @@ func (ctrl Controller) CreateProduct(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, model.BaseResponse[any]{
 		Data: product,
 	})
+}
+
+func (ctrl Controller) GetAllProduct(ctx *gin.Context) {
+	var (
+		request model.RequestGetProduct
+	)
+	if err := ctx.BindQuery(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Bind Query").Error(),
+		})
+		return
+	}
+	if err := validator.New().Struct(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Validate").Error(),
+		})
+		return
+	}
+	results, err := ctrl.Service.GetAllProduct(request)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Find Product").Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK,
+		model.BaseResponse[model.BaseResponseList[[]model.Product]]{
+			Data: model.BaseResponseList[[]model.Product]{
+				Count:   len(results),
+				Results: results,
+			},
+		})
+
 }

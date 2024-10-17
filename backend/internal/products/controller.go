@@ -4,6 +4,7 @@ import (
 	"ecommerce-backend/internal/model"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -105,4 +106,58 @@ func (ctrl Controller) GetAllProduct(ctx *gin.Context) {
 			},
 		})
 
+}
+
+func (ctrl Controller) GetProductById(ctx *gin.Context) {
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	var (
+		request model.RequestGetProductById
+	)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Invalid ID").Error(),
+		})
+		return
+	}
+
+	if err := validator.New().Struct(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Validate").Error(),
+		})
+		return
+	}
+	result, err := ctrl.Service.GetProductById(uint(id))
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Find item by ID").Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, model.BaseResponse[any]{
+		Data: result,
+	})
+
+}
+
+func (ctrl Controller) DeleteProduct(ctx *gin.Context) {
+	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 64)
+
+	// Replace
+	if err := ctrl.Service.DeleteProduct(uint(id)); err != nil {
+		ctx.JSON(
+			http.StatusInternalServerError,
+			model.BaseResponse[any]{
+				Message: errors.Wrap(err, "Update item status").Error(),
+			},
+		)
+		return
+	}
+
+	ctx.JSON(
+		http.StatusCreated,
+		model.BaseResponse[any]{
+			Message: "success",
+		},
+	)
 }

@@ -58,10 +58,10 @@ func main() {
 	{
 		items.POST("/products", controllerproduct.CreateProduct)
 		items.GET("/products", controllerproduct.GetAllProduct)
-		// items.GET("/products/:id", controllerproduct.CreateProduct)
-		// items.PUT("/products/:id", controllerproduct.CreateProduct)
-		// items.DELETE("/products/:id", controllerproduct.CreateProduct)
-		// items.PATCH("/products/:id", controllerproduct.UpdateStatus)
+		items.GET("/products/:id", controllerproduct.GetProductById)
+		// items.PUT("/products/:id", controllerproduct.UpdateProduct)
+		items.DELETE("/products/:id", controllerproduct.DeleteProduct)
+		// items.PATCH("/products/:id", controllerproduct.UpdateStatusProduct)
 	}
 
 	if err := r.Run(); err != nil {

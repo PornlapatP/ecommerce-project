@@ -29,3 +29,12 @@ func (validata Validate) ProductStatus(current, next constant.ProductsStatus) er
 	}
 	return nil
 }
+func (validator Validate) DeleteProduct(current constant.ProductsStatus) error {
+	switch current {
+	case constant.ProductActiveStatus:
+		return errors.Errorf("cannot delete item when status is %s", strings.ToLower(string(current)))
+
+	}
+
+	return nil
+}

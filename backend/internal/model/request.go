@@ -1,6 +1,8 @@
 package model
 
-import "ecommerce-backend/internal/constant"
+import (
+	"ecommerce-backend/internal/constant"
+)
 
 type RequestLogin struct {
 	Email    string `binding:"required"`
@@ -33,4 +35,8 @@ type RequestCreateProduct struct {
 
 type RequestGetProduct struct {
 	Status []constant.ProductsStatus `form:"status" validate:"dive,oneof=active inactive"`
+}
+
+type RequestGetProductById struct {
+	ID uint `json:"id"`
 }

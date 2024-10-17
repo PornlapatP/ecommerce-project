@@ -35,3 +35,18 @@ func (repo Repository) GetallProducts(query model.RequestGetProduct) ([]model.Pr
 
 	return results, nil
 }
+
+func (repo Repository) GetproductById(id uint) (model.Product, error) {
+	var result model.Product
+
+	if err := repo.Database.First(&result, id).Error; err != nil {
+		return result, err
+	}
+
+	return result, nil
+
+}
+
+func (repo Repository) DeleteProduct(id uint) error {
+	return repo.Database.Delete(&model.Product{}, id).Error
+}

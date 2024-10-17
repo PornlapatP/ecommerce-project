@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"ecommerce-backend/internal/products"
 	"ecommerce-backend/internal/users"
 
 	"github.com/gin-contrib/cors"
@@ -25,12 +26,15 @@ func main() {
 		log.Fatalf("Error connection to the database: %v", err)
 	}
 	controlleruser := users.NewController(dbconn, os.Getenv("JWT_SECRET"), os.Getenv("HASH_SECRET"))
-	// controllerproduct := products.NewController(dbconn)
+	controllerproduct := products.NewController(dbconn)
 	// controllerorder := orders.NewController(dbconn)
 	// controllerorder_item := order_items.NewController(dbconn)
 	// controllercart := cart.NewController(dbconn)
 
 	r := gin.Default()
+	// เสิร์ฟไฟล์จากโฟลเดอร์ uploads
+	r.Static("/uploads", "./uploads")
+
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{
 		"http://localhost:3000",
@@ -49,6 +53,15 @@ func main() {
 		users.PUT("/:id", controlleruser.UpdateUser)
 		users.PATCH("/:id", controlleruser.UpdateRole)
 		// users.DELETE("/:id", controlleruser.DeleteUser)
+	}
+	items := r.Group("/items")
+	{
+		items.POST("/products", controllerproduct.CreateProduct)
+		// items.GET("/products", controllerproduct.GetAllProduct)
+		// items.GET("/products/:id", controllerproduct.CreateProduct)
+		// items.PUT("/products/:id", controllerproduct.CreateProduct)
+		// items.DELETE("/products/:id", controllerproduct.CreateProduct)
+		// items.PATCH("/products/:id", controllerproduct.UpdateStatus)
 	}
 
 	if err := r.Run(); err != nil {

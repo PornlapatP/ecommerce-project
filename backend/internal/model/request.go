@@ -22,3 +22,11 @@ type RequestGetUserByID struct {
 type RequestUpdateRole struct {
 	Role constant.UserRole
 }
+
+type RequestCreateProduct struct {
+	Name        string  `json:"name" binding:"required"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price" binding:"required"`
+	Stock       int     `json:"stock" binding:"required"`
+	// ImageURL    string  `json:"imageurl"`
+}

@@ -5,11 +5,11 @@ import (
 	"os"
 
 	"ecommerce-backend/internal/cart"
+	"ecommerce-backend/internal/middleware"
 	"ecommerce-backend/internal/orders"
 	"ecommerce-backend/internal/products"
 	"ecommerce-backend/internal/users"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -37,14 +37,9 @@ func main() {
 	// เสิร์ฟไฟล์จากโฟลเดอร์ uploads
 	r.Static("/uploads", "./uploads")
 
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{
-		"http://localhost:3000",
-		"http://127.0.0.1:3000",
-		"http://localhost:3001",
-		"http://127.0.0.1:3001",
-	}
-	r.Use(cors.New(config))
+	r.Use(middleware.RequestLogger())  // Logging middleware
+	r.Use(middleware.CORSMiddleware()) // CORS middleware
+	r.Use(middleware.ErrorHandler())   // Error handling middleware
 
 	// router user
 	users := r.Group("/users")
@@ -57,6 +52,7 @@ func main() {
 		// users.DELETE("/:id", controlleruser.DeleteUser)
 	}
 	items := r.Group("/items")
+	items.Use(middleware.Guard(os.Getenv("JWT_SECRET")))
 	{
 		items.POST("/products", controllerproduct.CreateProduct)
 		items.GET("/products", controllerproduct.GetAllProduct)
@@ -67,6 +63,7 @@ func main() {
 	}
 
 	orders := r.Group("/orders")
+	orders.Use(middleware.Guard(os.Getenv("JWT_SECRET")))
 	{
 		orders.POST("/products", controllerorder.CreateOrder)
 		orders.GET("/products", controllerorder.GetAllOrder)
@@ -77,6 +74,7 @@ func main() {
 	}
 	//build and cd and wed server
 	cart := r.Group("/cart")
+	cart.Use(middleware.Guard(os.Getenv("JWT_SECRET")))
 	{
 		cart.POST("/", controllercart.CreateCart)
 		cart.GET("/", controllercart.GetAllCart)

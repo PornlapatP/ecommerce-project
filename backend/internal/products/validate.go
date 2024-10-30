@@ -38,3 +38,11 @@ func (validator Validate) DeleteProduct(current constant.ProductsStatus) error {
 
 	return nil
 }
+func (validator Validate) UpdateProduct(current constant.ProductsStatus) error {
+	switch current {
+	case constant.ProductActiveStatus:
+		return errors.Errorf("cannot update item when status is %s", strings.ToLower(string(current)))
+	}
+
+	return nil
+}

@@ -50,3 +50,7 @@ func (repo Repository) GetproductById(id uint) (model.Product, error) {
 func (repo Repository) DeleteProduct(id uint) error {
 	return repo.Database.Delete(&model.Product{}, id).Error
 }
+
+func (repo Repository) UpdateProduct(data model.Product) error {
+	return repo.Database.Model(&data).Updates(data).Error
+}

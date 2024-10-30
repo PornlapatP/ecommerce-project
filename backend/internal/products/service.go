@@ -10,7 +10,7 @@ import (
 
 type Service struct {
 	Repository Repository
-	Validata   Validate
+	Validate   Validate
 }
 
 func NewService(dbconn *gorm.DB) Service {
@@ -58,9 +58,58 @@ func (service Service) DeleteProduct(id uint) error {
 	}
 
 	// Check status
-	if err := service.Validata.DeleteProduct(product.Status); err != nil {
+	if err := service.Validate.DeleteProduct(product.Status); err != nil {
 		return err
 	}
 
 	return service.Repository.DeleteProduct(id)
+}
+
+func (service Service) UpdateStatusProduct(id uint, status constant.ProductsStatus) (model.Product, error) {
+
+	// Find item
+	data, err := service.Repository.GetproductById(id)
+
+	if err != nil {
+		return model.Product{}, err
+	}
+
+	// Check status
+	if err := service.Validate.ProductStatus(data.Status, status); err != nil {
+		return model.Product{}, err
+	}
+
+	data.Status = status
+	data.UpdatedAt = time.Now()
+
+	// Replace
+	if err := service.Repository.UpdateProduct(data); err != nil {
+		return model.Product{}, err
+	}
+
+	return data, nil
+}
+func (service Service) UpdateProduct(id uint, req model.RequestCreateProduct) (model.Product, error) {
+	result, err := service.Repository.GetproductById(id)
+
+	if err := service.Validate.UpdateProduct(result.Status); err != nil {
+		return model.Product{}, err
+	}
+
+	data := model.Product{
+		ID:          result.ID,
+		Name:        req.Name,
+		Description: req.Description,
+		Price:       req.Price,
+		Stock:       req.Stock,
+		ImageURL:    req.ImageURL, // URL ของรูปที่ได้รับมาจาก Controller
+		Status:      constant.ProductActiveStatus,
+		CreatedAt:   result.CreatedAt,
+		UpdatedAt:   time.Now(),
+	}
+	if err := service.Repository.UpdateProduct(data); err != nil {
+		return model.Product{}, err
+	}
+
+	return data, err
 }

@@ -34,3 +34,10 @@ type ResponseProduct struct {
 	CreatedAt   time.Time               `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time               `gorm:"autoUpdateTime" json:"updated_at"`
 }
+type ResponseCart struct {
+	ID        uint       `json:"id"`
+	UserID    uint       `json:"user_id"`
+	Products  []CartItem `json:"products"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+}

@@ -161,3 +161,121 @@ func (ctrl Controller) DeleteProduct(ctx *gin.Context) {
 		},
 	)
 }
+
+func (ctrl Controller) UpdateStatusProduct(ctx *gin.Context) {
+	// Path params
+	id, _ := strconv.ParseUint(ctx.Param("id"), 10, 64)
+
+	// Bind request body
+	var (
+		request model.RequestUpdateProduct
+	)
+
+	if err := ctx.Bind(&request); err != nil {
+		ctx.JSON(
+			http.StatusBadRequest,
+			model.BaseResponse[any]{
+				Message: errors.Wrap(err, "Bind body").Error(),
+			},
+		)
+		return
+	}
+
+	// Validate
+	if err := validator.New().Struct(&request); err != nil {
+		ctx.JSON(
+			http.StatusBadRequest,
+			model.BaseResponse[any]{
+				Message: errors.Wrap(err, "Validate").Error(),
+			},
+		)
+		return
+	}
+
+	// Replace
+	result, err := ctrl.Service.UpdateStatusProduct(uint(id), request.Status)
+	if err != nil {
+		ctx.JSON(
+			http.StatusInternalServerError,
+			model.BaseResponse[any]{
+				Message: errors.Wrap(err, "Update item status").Error(),
+			},
+		)
+		return
+	}
+
+	ctx.JSON(
+		http.StatusCreated,
+		model.BaseResponse[model.Product]{
+			Data: result,
+		},
+	)
+}
+
+func (ctrl Controller) UpdateProduct(ctx *gin.Context) {
+	// ดึง id จาก URL parameter
+	id, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: "Invalid ID format",
+		})
+		return
+	}
+
+	var (
+		request model.RequestCreateProduct
+	)
+
+	// Bind request body ไปยัง struct
+	if err := ctx.Bind(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Bind body").Error(),
+		})
+		return
+	}
+
+	// Validator advance check ex.value > 0
+	if err := validator.New().Struct(&request); err != nil {
+		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Validate").Error(),
+		})
+		return
+	}
+
+	// เรียก service เพื่อแทนที่ item
+	result, err := ctrl.Service.UpdateProduct(uint(id), request)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, model.BaseResponse[any]{
+			Message: errors.Wrap(err, "Update Product").Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.BaseResponse[model.Product]{
+		Data: result,
+	})
+}
+
+// type Claims struct {
+// 	ID uint `json:"id"` // หรือฟิลด์อื่น ๆ ที่คุณต้องการ
+// 	jwt.StandardClaims
+// }
+
+// func parseToken(tokenString string) (*Claims, error) {
+// 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+// 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+// 			return nil, errors.New("unexpected signing method")
+// 		}
+// 		return []byte(os.Getenv("JWT_SECRET")), nil
+// 	})
+
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
+// 		return claims, nil
+// 	}
+
+// 	return nil, errors.New("invalid token")
+// }

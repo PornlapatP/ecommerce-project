@@ -15,7 +15,7 @@ const LoginForm: React.FC = () => {
     }
     try {
       await authService.login({ email, password });
-      router.push('/');
+      router.push('/home');
     } catch (error) {
       console.error('Login failed:', error);
     }

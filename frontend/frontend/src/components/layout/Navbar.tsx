@@ -1,3 +1,6 @@
+// 'use client'; // คำสั่งนี้ต้องอยู่บรรทัดแรก
+'use client';  // ทำให้คอมโพเนนต์นี้เป็น Client-Side
+
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -5,7 +8,6 @@ import jwt from 'jsonwebtoken';
 import authService from '../../services/authService';
 import styles from '../../style/Navbar.module.css'; // Import the CSS module
 import { TokenType } from '@/types/auth'
-
 
 const Navbar = () => {
   const router = useRouter();

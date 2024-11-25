@@ -1,6 +1,6 @@
 -- +goose Up
 CREATE TABLE 
-    order_item(
+    order_items (
         id SERIAL PRIMARY KEY,
         order_id INTEGER REFERENCES orders(id),
         product_id INTEGER REFERENCES products(id),

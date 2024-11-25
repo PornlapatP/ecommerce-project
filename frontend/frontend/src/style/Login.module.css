@@ -1,66 +1,47 @@
-/* Login.module.css */
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Full height of the viewport */
-    background-color: #f8f9fa; /* Light background color */
-    padding: 20px;
-  }
-  
-  .title {
-    font-size: 1.5rem; /* Font size for the title */
-    color: #333; /* Dark color for contrast */
-    margin-bottom: 10px; /* Space below the title */
-  }
-  
-  .heading {
-    font-size: 2rem; /* Font size for the heading */
-    margin: 20px 0; /* Space above and below the heading */
-    text-align: center; /* Center the heading */
-  }
-  
-  .error {
-    color: red; /* Red color for error messages */
-    margin-bottom: 10px; /* Space below error messages */
-    font-weight: bold; /* Make the error message bold */
-    text-align: center; /* Center the error message */
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column; /* Stack inputs vertically */
-    width: 100%;
-    max-width: 400px; /* Maximum width for the form */
-  }
-  
-  .input {
-    padding: 12px; /* Padding inside inputs */
-    margin: 10px 0; /* Space between inputs */
-    border: 1px solid #ccc; /* Border for inputs */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 1rem; /* Font size for input text */
-    transition: border-color 0.3s; /* Smooth transition for focus effect */
-  }
-  
-  .input:focus {
-    border-color: #0070f3; /* Change border color on focus */
-    outline: none; /* Remove default outline */
-  }
-  
-  .button {
-    padding: 12px; /* Padding inside the button */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    background-color: #0070f3; /* Blue background color */
-    color: white; /* White text color */
-    font-size: 1rem; /* Font size for button text */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-  }
-  
-  .button:hover {
-    background-color: #005bb5; /* Darker blue on hover */
-  }
-  
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  padding: 10px;
+  font-size: 1rem;
+  color: white;
+  background-color: #0070f3;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}

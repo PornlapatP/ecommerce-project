@@ -4,6 +4,7 @@ import (
 	"ecommerce-backend/internal/model"
 	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -24,53 +25,81 @@ func NewController(dbconn *gorm.DB) Controller {
 }
 
 func (ctrl Controller) CreateProduct(ctx *gin.Context) {
-	var (
-		request model.RequestCreateProduct
-	)
+	// อ่านข้อมูลฟอร์มแบบปกติ
+	name := ctx.PostForm("name")
+	description := ctx.PostForm("description")
+	price := ctx.PostForm("price")
+	stock := ctx.PostForm("stock")
+	// status := ctx.PostForm("status")
 
-	// Bind the request body
-	if err := ctx.Bind(&request); err != nil {
-		ctx.JSON(http.StatusBadRequest, model.BaseResponse[any]{
-			Message: errors.Wrap(err, "Bind body").Error(),
+	// ตรวจสอบว่าฟิลด์ที่จำเป็นมีค่าไหม
+	if name == "" || price == "" || stock == "" {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Missing required fields: name, price, or stock",
+		})
+		return
+	}
+
+	// แปลงประเภทข้อมูลให้เหมาะสม
+	priceValue, err := strconv.ParseFloat(price, 64)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Invalid price value",
+		})
+		return
+	}
+
+	stockValue, err := strconv.Atoi(stock)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Invalid stock value",
 		})
 		return
 	}
 
 	// Handle file upload
-	file, err := ctx.FormFile("ImageURL")
+	file, err := ctx.FormFile("image")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "File upload error"})
 		return
 	}
 
-	// Generate unique filename
+	// สร้างโฟลเดอร์และบันทึกรูป
+	if _, err := os.Stat("./uploads"); os.IsNotExist(err) {
+		os.Mkdir("./uploads", os.ModePerm)
+	}
+
 	filename := fmt.Sprintf("%d_%s", time.Now().Unix(), file.Filename)
-
-	// Save the file to the 'uploads' folder
-	savePath := fmt.Sprintf("./uploads/%s", filename) // Adjusted to save in the correct folder
-
+	savePath := fmt.Sprintf("./uploads/%s", filename)
 	if err := ctx.SaveUploadedFile(file, savePath); err != nil {
-		ctx.JSON(http.StatusInternalServerError, model.BaseResponse[any]{
-			Message: errors.Wrap(err, "Unable to save file").Error(),
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Unable to save file",
 		})
 		return
 	}
 
-	// Create the image URL
-	imageURL := fmt.Sprintf("http://localhost:2025/uploads/%s", filename)
+	imageURL := fmt.Sprintf("http://localhost:2027/uploads/%s", filename)
 
-	// Save product with image URL
+	// สร้าง product request
+	request := model.RequestCreateProduct{
+		Name:        name,
+		Description: description,
+		Price:       priceValue,
+		Stock:       stockValue,
+		ImageURL:    imageURL,
+	}
+
+	// ส่งข้อมูลไปที่ service
 	product, err := ctrl.Service.Create(request, imageURL)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, model.BaseResponse[any]{
-			Message: errors.Wrap(err, "Error saving product").Error(),
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Error saving product",
 		})
 		return
 	}
 
-	// Return the created product
-	ctx.JSON(http.StatusCreated, model.BaseResponse[any]{
-		Data: product,
+	ctx.JSON(http.StatusCreated, gin.H{
+		"data": product,
 	})
 }
 

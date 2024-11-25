@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "2027:2025"
+    environment:
+      - DATABASE_URL=postgres://postgres:1234567@postgres:5432/ecommerce?sslmode=disable  # แก้เป็น postgres
+      - JWT_SECRET=1231$%#$@  # แก้ไขให้ไม่มี \ ที่ทำให้เกิดปัญหา
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16.1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234567
+      POSTGRES_DB: ecommerce
+    ports:
+      - "4321:5432"  # พอร์ตภายนอกของ PostgreSQL
+    volumes:
+      - 9765e67168246f66806d09b95067a2940d7f019bedf9b4b74d8fce21c689c1a0:/var/lib/postgresql/data  # ใช้ volume ที่มีอยู่
+
+volumes:
+  9765e67168246f66806d09b95067a2940d7f019bedf9b4b74d8fce21c689c1a0:  # กำหนด volume ที่มีอยู่
+    external: true  # ระบุว่า volume นี้มีอยู่แล้ว

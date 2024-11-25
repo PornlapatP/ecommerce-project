@@ -26,11 +26,11 @@ type RequestUpdateRole struct {
 }
 
 type RequestCreateProduct struct {
-	Name        string  `json:"name" binding:"required"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price" binding:"required"`
-	Stock       int     `json:"stock" binding:"required"`
-	ImageURL    string  `json:"imageurl"`
+	Name        string  `json:"name" binding:"required"`  // ชื่อผลิตภัณฑ์
+	Description string  `json:"description"`              // รายละเอียด
+	Price       float64 `json:"price" binding:"required"` // ราคา
+	Stock       int     `json:"stock" binding:"required"` // จำนวนสินค้าที่มี
+	ImageURL    string  `json:"imageurl"`                 // URL ของรูปภาพ (เป็น string ไม่ใช่ file)
 }
 
 type RequestGetProduct struct {

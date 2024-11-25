@@ -1,7 +1,7 @@
 // pages/home.tsx
 import Navbar from '../components/layout/Navbar';
-import withAuth from '../components/layout/withAuth';
-
+// import withAuth from '../components/layout/withAuth';
+import withAuth from '../utils/withAuth'; // นำเข้า HOC
 const Home = () => {
   return (
     <div>

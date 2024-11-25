@@ -27,8 +27,8 @@ func (service Service) Create(req model.RequestCreateProduct, imageURL string) (
 		Description: req.Description,
 		Price:       req.Price,
 		Stock:       req.Stock,
-		ImageURL:    imageURL, // URL ของรูปที่ได้รับมาจาก Controller
-		Status:      constant.ProductActiveStatus,
+		ImageURL:    imageURL,
+		Status:      constant.ProductActiveStatus, // ใช้ค่า Status จาก Request
 		CreatedAt:   now,
 		UpdatedAt:   now,
 	}

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 	"strings"
 
@@ -18,6 +19,7 @@ func Guard(secret string) gin.HandlerFunc {
 		}
 
 		tokenStr := strings.Split(authHeader, " ")[1]
+		log.Println("token :", tokenStr)
 		token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil
 		})

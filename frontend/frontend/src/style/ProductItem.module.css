@@ -1,0 +1,82 @@
+/* ProductItem.module.css */
+.productCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+  }
+  
+  .productCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  
+  .productImage {
+    width: 100%;
+    max-height: 300px; /* Fixed height for image consistency */
+    object-fit: cover; /* Ensure the image covers the container */
+    border-radius: 8px; /* Rounded corners for the image */
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  .productImage:hover {
+    transform: scale(1.05); /* Zoom effect on hover */
+  }
+  
+  .productInfo {
+    width: 100%;
+  }
+  
+  .productName {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .productDescription {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .productPrice,
+  .productStock {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  .productPrice {
+    color: #27ae60; /* Green for price */
+  }
+  
+  .productStock {
+    color: #f39c12; /* Yellow for stock */
+  }
+  
+  @media (max-width: 768px) {
+    .productCard {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: left;
+    }
+  
+    .productImage {
+      width: 100%;
+      height: auto; /* Let the height be auto-adjusted on small screens */
+    }
+  }
+  

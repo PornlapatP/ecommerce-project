@@ -70,7 +70,7 @@ func (ctrl Controller) Login(ctx *gin.Context) {
 	}
 	ctx.SetCookie(
 		"token",
-		fmt.Sprintf("Bearer %v", token), int(100*time.Minute),
+		fmt.Sprintf("Bearer %v", token), int(100*time.Hour),
 		"/",
 		"localhost",
 		false,

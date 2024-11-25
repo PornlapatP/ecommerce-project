@@ -1,67 +1,63 @@
-/* Register.module.css */
+/* Default input styling */
+.input {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Valid input state */
+.validInput {
+  border-color: green;
+}
+
+/* Invalid input state */
+.invalidInput {
+  border-color: red;
+}
+
+/* Button Styling */
+.button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Error message styling */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.heading {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh; /* Full height of the viewport */
-    background-color: #f8f9fa; /* Light background color */
-    padding: 20px;
-  }
-  
-  .title {
-    font-size: 1.5rem; /* Font size for the title */
-    color: #333; /* Dark color for contrast */
-    margin-bottom: 10px; /* Space below the title */
-    align-self: flex-start; /* Align the title to the left */
-  }
-  
-  .heading {
-    font-size: 2rem; /* Font size for the heading */
-    margin: 20px 0; /* Space above and below the heading */
-    text-align: center; /* Center the heading */
-  }
-  
-  .error {
-    color: red; /* Red color for error messages */
-    margin-bottom: 10px; /* Space below error messages */
-    font-weight: bold; /* Make the error message bold */
-    text-align: center; /* Center the error message */
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column; /* Stack inputs vertically */
-    width: 100%;
-    max-width: 400px; /* Maximum width for the form */
-  }
-  
-  .input {
-    padding: 12px; /* Padding inside inputs */
-    margin: 10px 0; /* Space between inputs */
-    border: 1px solid #ccc; /* Border for inputs */
-    border-radius: 4px; /* Rounded corners */
-    font-size: 1rem; /* Font size for input text */
-    transition: border-color 0.3s; /* Smooth transition for focus effect */
-  }
-  
-  .input:focus {
-    border-color: #0070f3; /* Change border color on focus */
-    outline: none; /* Remove default outline */
-  }
-  
-  .button {
-    padding: 12px; /* Padding inside the button */
-    border: none; /* Remove border */
-    border-radius: 4px; /* Rounded corners */
-    background-color: #0070f3; /* Blue background color */
-    color: white; /* White text color */
-    font-size: 1rem; /* Font size for button text */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-  }
-  
-  .button:hover {
-    background-color: #005bb5; /* Darker blue on hover */
-  }
-  
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

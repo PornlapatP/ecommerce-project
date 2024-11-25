@@ -13,7 +13,7 @@ func CreateToken(id uint, username string, role string, secret string) (string, 
 		"id":       id,
 		"username": username,
 		"role":     role,
-		"exp":      time.Now().Add(100 * time.Second).Unix(), // ระยะเวลาหมดอายุ
+		"exp":      time.Now().Add(100 * time.Hour).Unix(), // ระยะเวลาหมดอายุ
 	}
 
 	// สร้าง JWT token

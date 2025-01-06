@@ -1,41 +1,33 @@
 name: CI Pipeline
 
-# Trigger เมื่อมีการ Push โค้ด
 on:
   push:
     branches:
-      - main  # ทำงานเมื่อ push ไปยัง branch main
+      - main
 
-# Jobs สำหรับ CI
 jobs:
   build:
-    runs-on: ubuntu-latest  # ใช้เซิร์ฟเวอร์ Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout โค้ดจาก Repository
+      # 1. Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. ตั้งค่า Docker Buildx
+      # 2. Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # 3. Build Backend Docker Image
+      # 3. Create .env file
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_BACKEND_FILE }}" > .env
+
+      # 4. Build Backend Docker Image
       - name: Build Backend Image
         run: |
           docker build -t backend:ci ./backend
 
-      # 4. Build Frontend Docker Image
+      # 5. Build Frontend Docker Image
       - name: Build Frontend Image
         run: |
           docker build -t frontend:ci ./frontend
-
-      # 5. รัน docker-compose สำหรับการทดสอบ
-      - name: Run docker-compose
-        run: |
-          docker-compose -f docker-compose.yml up -d
-
-      # 6. ตรวจสอบ Containers
-      - name: Verify running services
-        run: |
-          docker ps

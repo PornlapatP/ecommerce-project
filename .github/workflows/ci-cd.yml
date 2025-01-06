@@ -1,54 +1,41 @@
-name: Go CI/CD Pipeline
+name: CI Pipeline
 
+# Trigger เมื่อมีการ Push โค้ด
 on:
   push:
     branches:
-      - main
+      - main  # ทำงานเมื่อ push ไปยัง branch main
 
+# Jobs สำหรับ CI
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest  # ใช้เซิร์ฟเวอร์ Ubuntu
+
     steps:
-      - name: Checkout Code
+      # 1. Checkout โค้ดจาก Repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.23.0'  
-          
-      - name: Build Project in Backend Directory
+      # 2. ตั้งค่า Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # 3. Build Backend Docker Image
+      - name: Build Backend Image
         run: |
-          cd backend 
-          go mod tidy
-          go test ./...
-          mkdir -p bin  # สร้าง directory bin หากยังไม่มี
-          go build -o bin/ecommerceapp ./cmd/ecommerce-api  # เก็บไว้ใน backend/bin
+          docker build -t backend:ci ./back
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v2  # ทำการ checkout โค้ดในขั้นตอน deployment
+      # 4. Build Frontend Docker Image
+      - name: Build Frontend Image
+        run: |
+          docker build -t frontend:ci ./front
 
-  #     - name: Show Current Directory
-  #       run: pwd
-        
-  #     - name: List Files in backend
-  #       run: ls -la backend  # ตรวจสอบว่า directory backend มีอยู่
+      # 5. รัน docker-compose สำหรับการทดสอบ
+      - name: Run docker-compose
+        run: |
+          docker-compose -f docker-compose.yml up -d
 
-  #     - name: List Files in backend/bin
-  #       run: |
-  #         if [ -d backend/bin ]; then
-  #           ls -la backend/bin  # ตรวจสอบว่า directory bin มีอยู่
-  #         else
-  #           echo "Directory backend/bin does not exist."
-  #           exit 1
-  #         fi
-        
-  #     - name: Deploy to Nginx
-  #       run: |
-  #         sudo cp backend/bin/ecommerceapp /var/www/html  # ใช้ path ที่ relative
-  #         sudo systemctl restart nginx  # รีสตาร์ท Nginx เพื่อให้การเปลี่ยนแปลงมีผล 
+      # 6. ตรวจสอบ Containers
+      - name: Verify running services
+        run: |
+          docker ps

@@ -20,8 +20,8 @@ jobs:
 
       # 3. Create .env file
       - name: Create .env file
-        run: echo "${{ secrets.ENV_BACKEND_FILE }}" > .env
-
+        run: echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+        
       # 4. Build Backend Docker Image
       - name: Build Backend Image
         run: |

@@ -26,12 +26,12 @@ jobs:
       # 4. Build Backend Docker Image
       - name: Build Backend Image
         run: |
-          docker build -t backend:ci ./backend
+          docker build -t pornlapatp/backend:ci ./backend  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง
 
       # 5. Build Frontend Docker Image
       - name: Build Frontend Image
         run: |
-          docker build -t frontend:ci ./frontend/frontend
+          docker build -t pornlapatp/frontend:ci ./frontend/frontend  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง
 
       # 6. Verify Docker Images
       - name: Verify Docker Images
@@ -48,9 +48,9 @@ jobs:
       # 8. Push Backend Docker Image to Docker Hub
       - name: Push Backend Image to Docker Hub
         run: |
-          docker push pornlapatp/backend:ci
+          docker push pornlapatp/backend:ci  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง
 
       # 9. Push Frontend Docker Image to Docker Hub
-      - name: Push Frontend Image to Docker Hub
+      - name: Push Frontend Docker Image to Docker Hub
         run: |
-          docker push pornlapatp/frontend:ci
+          docker push pornlapatp/frontend:ci  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง

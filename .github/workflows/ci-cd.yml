@@ -48,12 +48,12 @@ jobs:
       # 8. Push Backend Docker Image to Docker Hub
       - name: Push Backend Image to Docker Hub
         run: |
-          docker push pornlapatp/backend:ci  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง
+          docker push pornlapatp/backend:ci  
 
       # 9. Push Frontend Docker Image to Docker Hub
       - name: Push Frontend Docker Image to Docker Hub
         run: |
-          docker push pornlapatp/frontend:ci  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง 
+          docker push pornlapatp/frontend:ci  
 
       # 10. SSH to Server and Pull Docker Image for Backend
       - name: SSH to Server and Pull Backend Docker Image

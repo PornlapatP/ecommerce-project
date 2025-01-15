@@ -63,6 +63,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           port: 22
+          debug: true # เพิ่ม Debugging
           script: |
             docker pull pornlapatp/backend:ci
             docker stop backend-container || true

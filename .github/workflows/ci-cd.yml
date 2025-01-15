@@ -53,4 +53,32 @@ jobs:
       # 9. Push Frontend Docker Image to Docker Hub
       - name: Push Frontend Docker Image to Docker Hub
         run: |
-          docker push pornlapatp/frontend:ci  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง
+          docker push pornlapatp/frontend:ci  # ใช้ชื่อผู้ใช้และ repository ถูกต้อง 
+
+      # 10. SSH to Server and Pull Docker Image for Backend
+      - name: SSH to Server and Pull Backend Docker Image
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            docker pull pornlapatp/backend:ci
+            docker stop backend-container || true
+            docker rm backend-container || true
+            docker run -d --name backend-container -p 8080:8080 pornlapatp/backend:ci
+
+      # 11. SSH to Server and Pull Docker Image for Frontend
+      - name: SSH to Server and Pull Frontend Docker Image
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            docker pull pornlapatp/frontend:ci
+            docker stop frontend-container || true
+            docker rm frontend-container || true
+            docker run -d --name frontend-container -p 80:80 pornlapatp/frontend:ci
